@@ -35,15 +35,15 @@ public class TelaInicialActivity extends DebugActivity {
         // Recupera a intent e os dados enviados na chamda da Activity
         Intent intent = getIntent();
         Bundle params = intent.getExtras();
-        String nome = params.getString("nome");
-
-        // Mostra o nome do usuário enviado no log e no Toast
-        Log.d(DEBUG_TAG, "Nome do usuário: " + nome);
-        Toast.makeText(TelaInicialActivity.this, "Nome do usuário: " + nome, Toast.LENGTH_LONG).show();
-
-        // Altera o TextView da tela com o nome do usuário
-        TextView texto = (TextView) findViewById(R.id.textoInicial);
-        texto.setText(nome);
+        if(params != null && params.containsKey("nome")) {
+            String nome = params.getString("nome");
+            // Mostra o nome do usuário enviado no log e no Toast
+            Log.d(DEBUG_TAG, "Nome do usuário: " + nome);
+            Toast.makeText(TelaInicialActivity.this, "Nome do usuário: " + nome, Toast.LENGTH_LONG).show();
+            // Altera o TextView da tela com o nome do usuário
+            TextView texto = (TextView) findViewById(R.id.textoInicial);
+            texto.setText(nome);
+        }
 
         // Recupera o botão de sair e vincula um evento de clique
         Button botaoSair = (Button) findViewById(R.id.botaoSair);
@@ -112,27 +112,18 @@ public class TelaInicialActivity extends DebugActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_atualizar) {
-            Toast.makeText(TelaInicialActivity.this,
-                    "Atualizar",
-                    Toast.LENGTH_SHORT).show();
+            Toast.makeText(TelaInicialActivity.this, "Atualizar",Toast.LENGTH_SHORT).show();
         } else if (id == R.id.action_buscar) {
-            Toast.makeText(TelaInicialActivity.this,
-                    "Buscar",
-                    Toast.LENGTH_SHORT).show();
+            Toast.makeText(TelaInicialActivity.this, "Buscar", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.action_adicionar) {
-            Toast.makeText(TelaInicialActivity.this,
-                    "Buscar",
-                    Toast.LENGTH_SHORT).show();
+            Toast.makeText(TelaInicialActivity.this, "Buscar", Toast.LENGTH_SHORT).show();
             Intent it = new Intent(TelaInicialActivity.this, CadastroActivity.class);
             startActivityForResult(it, 1);
         } else if (id == R.id.action_config) {
-            Toast.makeText(TelaInicialActivity.this,
-                    "Config",
-                    Toast.LENGTH_SHORT).show();
+            Toast.makeText(TelaInicialActivity.this, "Config", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(TelaInicialActivity.this, ConfiguracoesActivity.class));
         } else if (id == R.id.action_share) {
-            Toast.makeText(TelaInicialActivity.this,
-                    "Compartilhar",
-                    Toast.LENGTH_SHORT).show();
+            Toast.makeText(TelaInicialActivity.this, "Compartilhar", Toast.LENGTH_SHORT).show();
         }
         return super.onOptionsItemSelected(item);
     }

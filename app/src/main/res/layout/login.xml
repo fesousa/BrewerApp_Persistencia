@@ -14,7 +14,6 @@
         android:text="@string/texto_usuario"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/fundo_verde"
         android:id="@+id/textoUsuario" />
 
     <EditText
@@ -24,10 +23,9 @@
         android:id="@+id/campoUsuario" />
 
     <TextView
+        android:text="@string/texto_senha"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/vermelho"
-        android:background="@color/verde"
         android:id="@+id/textoSenha" />
 
     <EditText
@@ -36,6 +34,12 @@
         android:inputType="textPassword"
         android:ems="10"
         android:id="@+id/campoSenha" />
+
+    <CheckBox
+        android:id="@+id/checkLembrar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Lembrar usuário e senha" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -47,10 +51,12 @@
             android:id="@+id/botaoLogin"
             android:stateListAnimator="@null" />
 
-        <ProgressBar
+        <!--<ProgressBar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/progressBar"/>
+            android:id="@+id/progressBar"/>-->
+
+
     </FrameLayout>
 
     <ImageView

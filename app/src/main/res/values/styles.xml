@@ -9,6 +9,7 @@
         <item name="android:navigationBarColor">@color/colorNavigation</item>
         <item name="android:windowBackground">@color/colorWindow</item>
         <item name="android:textColorPrimary">@color/colorText</item>
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
     </style>
 
     <style name="fundo_verde">
