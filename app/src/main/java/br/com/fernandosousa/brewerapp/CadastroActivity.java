@@ -53,30 +53,26 @@ public class CadastroActivity extends AppCompatActivity {
                 EditText paisCerveja = (EditText) findViewById(R.id.paisCerveja);
                 EditText enderecoCerveja = (EditText) findViewById(R.id.enderecoCerveja);
                 EditText precoCerveja = (EditText) findViewById(R.id.precoCerveja);
+                EditText imagemCerveja = (EditText) findViewById(R.id.urlImagem);
+                EditText latitudeCerveja = (EditText) findViewById(R.id.latitude);
+                EditText longitudeCerveja = (EditText) findViewById(R.id.longitude);
 
                 String textoNomeCerveja = nomeCerveja.getText().toString();
                 String textoTipoCerveja = tipoCerveja.getText().toString();
                 String textoPaisCerveja = paisCerveja.getText().toString();
                 String textoEnderecoCerveja = enderecoCerveja.getText().toString();
                 String textoPrecoCerveja = precoCerveja.getText().toString();
+                String textoImagemCerveja = imagemCerveja.getText().toString();
+                String textoLatitudeCerveja = latitudeCerveja.getText().toString();
+                String textoLongitudeCerveja = longitudeCerveja.getText().toString();
 
-
-                Intent returnIntent = new Intent();
-                returnIntent.putExtra("nomeCerveja", textoNomeCerveja);
-                returnIntent.putExtra("tipoCerveja", textoTipoCerveja);
-                returnIntent.putExtra("paisCerveja", textoPaisCerveja);
-                returnIntent.putExtra("enderecoCerveja", textoEnderecoCerveja);
-                returnIntent.putExtra("precoCerveja", textoPrecoCerveja);
-
-                // vverificar se checkbox está selecionado
+                // verificar se checkbox está selecionado
                 CheckBox check = (CheckBox) findViewById(R.id.checkFavorita);
                 boolean checkFavorita = check.isChecked();
-                returnIntent.putExtra("favorita", checkFavorita);
 
                 // verificar se Toggle está ligado ou desligado
                 ToggleButton toggle = (ToggleButton) findViewById(R.id.toggleButton);
                 boolean toggleOrigem = toggle.isChecked();
-                returnIntent.putExtra("origem", toggleOrigem);
 
                 // recuperar id do Radio selecionado
                 RadioGroup grupoBrilho = (RadioGroup) findViewById(R.id.grupoBrilho);
@@ -85,10 +81,25 @@ public class CadastroActivity extends AppCompatActivity {
                 //recuperar texto do grupo selecionado
                 RadioButton botaoSelecionado = (RadioButton) findViewById(idRadio);
                 String textoRadio = botaoSelecionado.getText().toString();
-                returnIntent.putExtra("brilho", textoRadio);
 
+                Cerveja cerveja = new Cerveja();
+                cerveja.brilho = idRadio;
+                cerveja.nome = textoNomeCerveja;
+                cerveja.endereco = textoEnderecoCerveja;
+                cerveja.favorita = checkFavorita ? 1 : 0;
+                cerveja.origem = toggleOrigem ? 1: 0;
+                cerveja.pais = textoPaisCerveja;
+                cerveja.preco = Double.valueOf(textoPrecoCerveja);
+                cerveja.tipo = textoTipoCerveja;
+                cerveja.imagem = textoImagemCerveja;
+                cerveja.latitude = textoLatitudeCerveja;
+                cerveja.longitude = textoLongitudeCerveja;
 
-                setResult(Activity.RESULT_OK, returnIntent);
+                CervejaDB cervejaDB = new CervejaDB(CadastroActivity.this);
+
+                cervejaDB.save(cerveja);
+
+                //setResult(Activity.RESULT_OK, returnIntent);
                 finish();
             }
         };

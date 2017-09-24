@@ -8,24 +8,23 @@ import java.util.List;
  */
 
 public class Cerveja {
-    String nome;
-    int imagem;
+    public long id;
+    public String nome;
+    public String imagem;
+    public String tipo;
+    public String pais;
+    public String endereco;
+    public String latitude;
+    public String longitude;
+    public double preco;
+    public int favorita;
+    public int origem;
+    public int brilho;
 
-    public Cerveja(String nome, int imagem) {
-        this.nome = nome;
-        this.imagem = imagem;
+
+    public Cerveja() {
+
     }
 
-    public static List<Cerveja> getCervejas(){
-        List<Cerveja> cervejas = new ArrayList<Cerveja>();
-        cervejas.add(new Cerveja("Franziskaner", R.drawable.franziskaner));
-        cervejas.add(new Cerveja("Paulaner", R.drawable.paulaner));
-        cervejas.add(new Cerveja("Hofabrau", R.drawable.hofbrau));
-        cervejas.add(new Cerveja("Sierra Nevada", R.drawable.sierra_nevada));
-        cervejas.add(new Cerveja("Heineken", R.drawable.heineken));
-        cervejas.add(new Cerveja("Murphys", R.drawable.murphys));
-
-        return cervejas;
-    }
 
 }

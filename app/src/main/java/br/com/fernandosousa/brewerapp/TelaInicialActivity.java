@@ -60,7 +60,9 @@ public class TelaInicialActivity extends DebugActivity {
         // Adapter Simples
         //lista.setAdapter(new SimplesAdapter(TelaInicialActivity.this));
         // Adapater de cervejas
-        cervejas = Cerveja.getCervejas();
+        CervejaDB cervejaDB = new CervejaDB(TelaInicialActivity.this);
+
+        cervejas = cervejaDB.findAll();
         lista.setAdapter(new CervejasAdapter(TelaInicialActivity.this,cervejas ));
 
         lista.setOnItemClickListener(new ListView.OnItemClickListener() {
@@ -132,38 +134,41 @@ public class TelaInicialActivity extends DebugActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if (requestCode == 1) {
+            CervejaDB cervejaDB = new CervejaDB(TelaInicialActivity.this);
 
-            if (resultCode == RESULT_OK) {
-                StringBuffer textoRetorno = new StringBuffer();
-                textoRetorno.append(data.getStringExtra("nomeCerveja"));
-                textoRetorno.append("\n");
-                textoRetorno.append(data.getStringExtra("tipoCerveja"));
-                textoRetorno.append("\n");
-                textoRetorno.append(data.getStringExtra("paisCerveja"));
-                textoRetorno.append("\n");
-                textoRetorno.append(data.getStringExtra("enderecoCerveja"));
-                textoRetorno.append("\n");
-                textoRetorno.append(data.getStringExtra("precoCerveja"));
-
-                if(data.getBooleanExtra("favorita", false)){
-                    textoRetorno.append("\n");
-                    textoRetorno.append("Favorita");
-                }
-                if(data.getBooleanExtra("origem", false)){
-                    textoRetorno.append("\n");
-                    textoRetorno.append("Nacional");
-                } else{
-                    textoRetorno.append("\n");
-                    textoRetorno.append("Importada");
-                }
-                textoRetorno.append("\n");
-                textoRetorno.append(data.getStringExtra("brilho"));
-                TextView texto = (TextView) findViewById(R.id.textoInicial);
-                if (texto != null) {
-                    texto.setText(textoRetorno.toString());
-                }
-
-            }
+            cervejas = cervejaDB.findAll();
+            lista.setAdapter(new CervejasAdapter(TelaInicialActivity.this,cervejas ));
+//            if (resultCode == RESULT_OK) {
+//                StringBuffer textoRetorno = new StringBuffer();
+//                textoRetorno.append(data.getStringExtra("nomeCerveja"));
+//                textoRetorno.append("\n");
+//                textoRetorno.append(data.getStringExtra("tipoCerveja"));
+//                textoRetorno.append("\n");
+//                textoRetorno.append(data.getStringExtra("paisCerveja"));
+//                textoRetorno.append("\n");
+//                textoRetorno.append(data.getStringExtra("enderecoCerveja"));
+//                textoRetorno.append("\n");
+//                textoRetorno.append(data.getStringExtra("precoCerveja"));
+//
+//                if(data.getBooleanExtra("favorita", false)){
+//                    textoRetorno.append("\n");
+//                    textoRetorno.append("Favorita");
+//                }
+//                if(data.getBooleanExtra("origem", false)){
+//                    textoRetorno.append("\n");
+//                    textoRetorno.append("Nacional");
+//                } else{
+//                    textoRetorno.append("\n");
+//                    textoRetorno.append("Importada");
+//                }
+//                textoRetorno.append("\n");
+//                textoRetorno.append(data.getStringExtra("brilho"));
+//                TextView texto = (TextView) findViewById(R.id.textoInicial);
+//                if (texto != null) {
+//                    texto.setText(textoRetorno.toString());
+//                }
+//
+//            }
         }
     }
 
