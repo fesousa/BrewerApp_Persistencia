@@ -22,9 +22,11 @@ import java.util.List;
 
 public class TelaInicialActivity extends DebugActivity {
 
-    private String[] listaCervejas = new String[]{"Franziskaner", "Paulaner", "Hofabrau", "Sierra Nevada", "Heineken", "Murphys"};
     private List<Cerveja> cervejas;
+    private List<Cerveja> results;
     private ListView lista ;
+    public static final int  RETORNO_CERVEJA_ACTIVITY = 2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,36 +42,35 @@ public class TelaInicialActivity extends DebugActivity {
             // Mostra o nome do usuário enviado no log e no Toast
             Log.d(DEBUG_TAG, "Nome do usuário: " + nome);
             Toast.makeText(TelaInicialActivity.this, "Nome do usuário: " + nome, Toast.LENGTH_LONG).show();
-            // Altera o TextView da tela com o nome do usuário
-            TextView texto = (TextView) findViewById(R.id.textoInicial);
-            texto.setText(nome);
-        }
 
-        // Recupera o botão de sair e vincula um evento de clique
-        Button botaoSair = (Button) findViewById(R.id.botaoSair);
-        botaoSair.setOnClickListener(clickSair());
+        }
 
         //Alterar texto da ActionBar
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Início");
 
         // tela com a listView
-        setContentView(R.layout.activity_tela_inicial_2);
+        setContentView(R.layout.activity_tela_inicial);
 
         lista = (ListView)findViewById(R.id.listaElementos);
-        // Adapter Simples
-        //lista.setAdapter(new SimplesAdapter(TelaInicialActivity.this));
-        // Adapater de cervejas
-        CervejaDB cervejaDB = new CervejaDB(TelaInicialActivity.this);
 
+        // Criar objeto de CervejaDB
+        CervejaDB cervejaDB = new CervejaDB(TelaInicialActivity.this);
+        // Procurar cervejas e armazenar na
+        // variavel de classe cervejas
         cervejas = cervejaDB.findAll();
-        lista.setAdapter(new CervejasAdapter(TelaInicialActivity.this,cervejas ));
+        results = cervejas.subList(0, cervejas.size());
+
+        // Adapater de cervejas
+        lista.setAdapter(new CervejasAdapter(TelaInicialActivity.this,results ));
 
         lista.setOnItemClickListener(new ListView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int index, long id) {
-
-                Toast.makeText(TelaInicialActivity.this, "Selecionado "+ cervejas.get(index).nome, Toast.LENGTH_SHORT).show();
+                Intent cervejaIntent = new Intent(TelaInicialActivity.this, CervejaActivity.class);
+                cervejaIntent.putExtra("cerveja", results.get(index));
+                // constante RETORNO_CERVEJA_ACTIVITY == 2
+                startActivityForResult(cervejaIntent, RETORNO_CERVEJA_ACTIVITY);
             }
         });
 
@@ -110,7 +111,7 @@ public class TelaInicialActivity extends DebugActivity {
         return true;
     }
 
-    // TRatar os eventos dos botões do menu
+    // Tratar os eventos dos botões do menu
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_atualizar) {
@@ -133,43 +134,17 @@ public class TelaInicialActivity extends DebugActivity {
     // Recuperar resultado de CadastroActivity após ela ser finalizada
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if (requestCode == 1) {
+        if (requestCode == 1 || requestCode == RETORNO_CERVEJA_ACTIVITY) {
             CervejaDB cervejaDB = new CervejaDB(TelaInicialActivity.this);
-
             cervejas = cervejaDB.findAll();
-            lista.setAdapter(new CervejasAdapter(TelaInicialActivity.this,cervejas ));
-//            if (resultCode == RESULT_OK) {
-//                StringBuffer textoRetorno = new StringBuffer();
-//                textoRetorno.append(data.getStringExtra("nomeCerveja"));
-//                textoRetorno.append("\n");
-//                textoRetorno.append(data.getStringExtra("tipoCerveja"));
-//                textoRetorno.append("\n");
-//                textoRetorno.append(data.getStringExtra("paisCerveja"));
-//                textoRetorno.append("\n");
-//                textoRetorno.append(data.getStringExtra("enderecoCerveja"));
-//                textoRetorno.append("\n");
-//                textoRetorno.append(data.getStringExtra("precoCerveja"));
-//
-//                if(data.getBooleanExtra("favorita", false)){
-//                    textoRetorno.append("\n");
-//                    textoRetorno.append("Favorita");
-//                }
-//                if(data.getBooleanExtra("origem", false)){
-//                    textoRetorno.append("\n");
-//                    textoRetorno.append("Nacional");
-//                } else{
-//                    textoRetorno.append("\n");
-//                    textoRetorno.append("Importada");
-//                }
-//                textoRetorno.append("\n");
-//                textoRetorno.append(data.getStringExtra("brilho"));
-//                TextView texto = (TextView) findViewById(R.id.textoInicial);
-//                if (texto != null) {
-//                    texto.setText(textoRetorno.toString());
-//                }
-//
-//            }
+            results = cervejas.subList(0, cervejas.size());
+            lista.setAdapter(new CervejasAdapter(TelaInicialActivity.this,results ));
         }
+        if (requestCode == RETORNO_CERVEJA_ACTIVITY && resultCode == Activity.RESULT_OK) {
+            String mensagem = data.getStringExtra("msg");
+            Toast.makeText(TelaInicialActivity.this, mensagem, Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     // Funcao para retornar o tratamento do evento no SearchView
@@ -195,13 +170,13 @@ public class TelaInicialActivity extends DebugActivity {
     }
 
     private void buscaCervejas(String query) {
-        List<Cerveja> results = new ArrayList<Cerveja>();
+        results = new ArrayList<Cerveja>();
         for (Cerveja cerveja: cervejas) {
             if(cerveja.nome.toLowerCase().contains(query)){
                 results.add(cerveja);
             }
         }
-        lista.setAdapter(new CervejasAdapter(TelaInicialActivity.this,results ));
+        lista.setAdapter(new CervejasAdapter(TelaInicialActivity.this,results));
     }
 
     // Funcao para retornar o tratamento do evento de compartilhamento
@@ -211,8 +186,8 @@ public class TelaInicialActivity extends DebugActivity {
         intent.setType("text/*");
         String textoShare = "Minha Lista de cervejas! \n";
 
-        for (String cerveja: listaCervejas) {
-            textoShare += cerveja +"\n";
+        for (Cerveja cerveja: cervejas) {
+            textoShare += cerveja.nome +"\n";
         }
         intent.putExtra(Intent.EXTRA_TEXT, textoShare);
         return intent;

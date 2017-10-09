@@ -14,8 +14,11 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import java.io.Serializable;
+
 public class CadastroActivity extends AppCompatActivity {
 
+    private Cerveja cerveja;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +42,45 @@ public class CadastroActivity extends AppCompatActivity {
                 Toast.makeText(CadastroActivity.this, "Marcado: " + checkedId, Toast.LENGTH_SHORT).show();
             }
         });
+
+        // recuperar Intent vinda da alteração
+        Intent cadastroIt = getIntent();
+        Serializable cervejaS = cadastroIt.getSerializableExtra("cerveja");
+        if(cervejaS != null) {
+            cerveja = (Cerveja)cervejaS;
+            EditText nomeCerveja = (EditText) findViewById(R.id.nomeCerveja);
+            EditText tipoCerveja = (EditText) findViewById(R.id.tipoCerveja);
+            EditText paisCerveja = (EditText) findViewById(R.id.paisCerveja);
+            EditText enderecoCerveja = (EditText) findViewById(R.id.enderecoCerveja);
+            EditText precoCerveja = (EditText) findViewById(R.id.precoCerveja);
+            EditText imagemCerveja = (EditText) findViewById(R.id.urlImagem);
+            EditText latitudeCerveja = (EditText) findViewById(R.id.latitude);
+            EditText longitudeCerveja = (EditText) findViewById(R.id.longitude);
+            CheckBox favorita = (CheckBox)findViewById(R.id.checkFavorita);
+            ToggleButton origem = (ToggleButton) findViewById(R.id.toggleButton);
+
+
+            nomeCerveja.setText(cerveja.nome);
+            tipoCerveja.setText(cerveja.tipo);
+            paisCerveja.setText(cerveja.pais);
+            enderecoCerveja.setText(cerveja.endereco);
+            precoCerveja.setText(Double.toString(cerveja.preco));
+            imagemCerveja.setText(cerveja.imagem);
+            latitudeCerveja.setText(cerveja.latitude);
+            longitudeCerveja.setText(cerveja.longitude);
+            origem.setChecked(cerveja.origem==1?true:false);
+
+            // selecionar favorita
+            favorita.setChecked(cerveja.favorita==1);
+
+            // escolher radio que será selecionado
+            RadioGroup botaoBrilho = (RadioGroup)findViewById(R.id.grupoBrilho);
+            botaoBrilho.check(cerveja.brilho);
+
+
+
+
+        }
 
 
     }
@@ -82,7 +124,9 @@ public class CadastroActivity extends AppCompatActivity {
                 RadioButton botaoSelecionado = (RadioButton) findViewById(idRadio);
                 String textoRadio = botaoSelecionado.getText().toString();
 
-                Cerveja cerveja = new Cerveja();
+                if (cerveja == null){
+                    cerveja = new Cerveja();
+                }
                 cerveja.brilho = idRadio;
                 cerveja.nome = textoNomeCerveja;
                 cerveja.endereco = textoEnderecoCerveja;
@@ -99,7 +143,11 @@ public class CadastroActivity extends AppCompatActivity {
 
                 cervejaDB.save(cerveja);
 
-                //setResult(Activity.RESULT_OK, returnIntent);
+                Intent returnIntent = new Intent();
+
+                returnIntent.putExtra("cerveja",cerveja);
+
+                setResult(Activity.RESULT_OK, returnIntent);
                 finish();
             }
         };

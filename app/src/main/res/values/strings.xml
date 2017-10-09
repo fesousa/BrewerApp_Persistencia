@@ -11,5 +11,7 @@
 
     <string name="texto_usuario">Usuário</string>
     <string name="texto_senha">Senha</string>
+    <string name="action_alterar">Alterar</string>
+    <string name="action_remover">Remover</string>
 
 </resources>

@@ -1,5 +1,6 @@
 package br.com.fernandosousa.brewerapp;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,7 +8,7 @@ import java.util.List;
  * Created by fsousa on 09/09/2017.
  */
 
-public class Cerveja {
+public class Cerveja implements Serializable{
     public long id;
     public String nome;
     public String imagem;
