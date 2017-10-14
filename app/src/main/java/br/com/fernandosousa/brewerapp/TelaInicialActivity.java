@@ -23,7 +23,6 @@ import java.util.List;
 public class TelaInicialActivity extends DebugActivity {
 
     private List<Cerveja> cervejas;
-    private List<Cerveja> results;
     private ListView lista ;
     public static final int  RETORNO_CERVEJA_ACTIVITY = 2;
 
@@ -59,16 +58,18 @@ public class TelaInicialActivity extends DebugActivity {
         // Procurar cervejas e armazenar na
         // variavel de classe cervejas
         cervejas = cervejaDB.findAll();
-        results = cervejas.subList(0, cervejas.size());
+
 
         // Adapater de cervejas
-        lista.setAdapter(new CervejasAdapter(TelaInicialActivity.this,results ));
+        lista.setAdapter(new CervejasAdapter(TelaInicialActivity.this,cervejas ));
 
         lista.setOnItemClickListener(new ListView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int index, long id) {
+                // recuperar lista de cervejas da listview
+                List<Cerveja> listaFiltrada = ((CervejasAdapter) adapterView.getAdapter()).getList();
                 Intent cervejaIntent = new Intent(TelaInicialActivity.this, CervejaActivity.class);
-                cervejaIntent.putExtra("cerveja", results.get(index));
+                cervejaIntent.putExtra("cerveja", listaFiltrada.get(index));
                 // constante RETORNO_CERVEJA_ACTIVITY == 2
                 startActivityForResult(cervejaIntent, RETORNO_CERVEJA_ACTIVITY);
             }
@@ -137,8 +138,7 @@ public class TelaInicialActivity extends DebugActivity {
         if (requestCode == 1 || requestCode == RETORNO_CERVEJA_ACTIVITY) {
             CervejaDB cervejaDB = new CervejaDB(TelaInicialActivity.this);
             cervejas = cervejaDB.findAll();
-            results = cervejas.subList(0, cervejas.size());
-            lista.setAdapter(new CervejasAdapter(TelaInicialActivity.this,results ));
+            lista.setAdapter(new CervejasAdapter(TelaInicialActivity.this,cervejas ));
         }
         if (requestCode == RETORNO_CERVEJA_ACTIVITY && resultCode == Activity.RESULT_OK) {
             String mensagem = data.getStringExtra("msg");
@@ -170,7 +170,7 @@ public class TelaInicialActivity extends DebugActivity {
     }
 
     private void buscaCervejas(String query) {
-        results = new ArrayList<Cerveja>();
+        List<Cerveja> results = new ArrayList<Cerveja>();
         for (Cerveja cerveja: cervejas) {
             if(cerveja.nome.toLowerCase().contains(query)){
                 results.add(cerveja);
