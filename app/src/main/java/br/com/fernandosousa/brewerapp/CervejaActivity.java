@@ -30,8 +30,8 @@ public class CervejaActivity extends AppCompatActivity {
     TextView pais;
     TextView preco;
     TextView endereco;
-    TextView latitude;
-    TextView longitude;
+//    TextView latitude;
+//    TextView longitude;
     TextView origem;
     TextView brilho;
 
@@ -55,8 +55,8 @@ public class CervejaActivity extends AppCompatActivity {
         pais = (TextView)findViewById(R.id.paisDados);
         preco = (TextView)findViewById(R.id.precoDados);
         endereco = (TextView)findViewById(R.id.enderecoDados);
-        latitude = (TextView)findViewById(R.id.latitudeDados);
-        longitude = (TextView)findViewById(R.id.longitudeDados);
+//        latitude = (TextView)findViewById(R.id.latitudeDados);
+//        longitude = (TextView)findViewById(R.id.longitudeDados);
         origem = (TextView)findViewById(R.id.origemDados);
         brilho = (TextView)findViewById(R.id.brilhoDados);
 
@@ -76,8 +76,8 @@ public class CervejaActivity extends AppCompatActivity {
         pais.setText(cerveja.pais);
         preco.setText(Double.toString(cerveja.preco));
         endereco.setText(cerveja.endereco);
-        latitude.setText(cerveja.latitude);
-        longitude.setText(cerveja.longitude);
+//        latitude.setText(cerveja.latitude);
+//        longitude.setText(cerveja.longitude);
         origem.setText(cerveja.origem==1?"Importada":"Nacional");
         brilho.setText(cerveja.brilho== R.id.radioBrilhante?"Brilhante":(cerveja.brilho== R.id.radioOpaca?"Opaca":"Turva"));
     }

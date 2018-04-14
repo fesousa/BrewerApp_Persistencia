@@ -19,7 +19,7 @@ public class CervejaDB extends SQLiteOpenHelper {
     // Nome do BD
     public static final String NOME_BANCO = "brewerapp.sqlite";
     // Versao do BD
-    public static final int VERSAO_BANCO = 2;
+    public static final int VERSAO_BANCO = 1;
 
     public CervejaDB(Context context){
          super(context, NOME_BANCO, null, VERSAO_BANCO);
@@ -55,8 +55,8 @@ public class CervejaDB extends SQLiteOpenHelper {
             values.put("tipo", cerveja.tipo);
             values.put("pais", cerveja.pais);
             values.put("endereco", cerveja.endereco);
-            values.put("latitude", cerveja.latitude);
-            values.put("longitude", cerveja.longitude);
+//            values.put("latitude", cerveja.latitude);
+//            values.put("longitude", cerveja.longitude);
             values.put("preco", cerveja.preco);
             values.put("favorita", cerveja.favorita);
             values.put("origem", cerveja.origem);
@@ -114,8 +114,8 @@ public class CervejaDB extends SQLiteOpenHelper {
                 cerveja.tipo = c.getString(c.getColumnIndex("tipo"));
                 cerveja.pais = c.getString(c.getColumnIndex("pais"));
                 cerveja.endereco = c.getString(c.getColumnIndex("endereco"));
-                cerveja.latitude = c.getString(c.getColumnIndex("latitude"));
-                cerveja.longitude = c.getString(c.getColumnIndex("longitude"));
+//                cerveja.latitude = c.getString(c.getColumnIndex("latitude"));
+//                cerveja.longitude = c.getString(c.getColumnIndex("longitude"));
                 cerveja.preco = c.getDouble(c.getColumnIndex("preco"));
                 cerveja.favorita = c.getInt(c.getColumnIndex("favorita"));
                 cerveja.origem = c.getInt(c.getColumnIndex("origem"));

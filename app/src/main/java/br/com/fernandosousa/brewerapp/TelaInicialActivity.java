@@ -135,7 +135,7 @@ public class TelaInicialActivity extends DebugActivity {
     // Recuperar resultado de CadastroActivity após ela ser finalizada
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if (requestCode == 1 || requestCode == RETORNO_CERVEJA_ACTIVITY) {
+        if (requestCode == 1 || resultCode == RETORNO_CERVEJA_ACTIVITY) {
             CervejaDB cervejaDB = new CervejaDB(TelaInicialActivity.this);
             cervejas = cervejaDB.findAll();
             lista.setAdapter(new CervejasAdapter(TelaInicialActivity.this,cervejas ));
